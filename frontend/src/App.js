@@ -247,8 +247,8 @@ function App() {
                 <Upload className="h-5 w-5" />
                 Imagens para Comparação
               </CardTitle>
-              <p className="text-sm text-gray-600">
-                Selecione até 50 imagens para comparar com a imagem base
+              <p className="text-sm text-gray-400">
+                Selecione até 250 imagens para comparar com a imagem base
               </p>
             </CardHeader>
             <CardContent>
