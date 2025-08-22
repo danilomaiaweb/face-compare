@@ -438,7 +438,7 @@ function App() {
                           {result.has_face && !result.error_message ? (
                             <div className="space-y-3">
                               <div className="text-center">
-                                <div className="text-3xl font-bold text-gray-800 mb-1">
+                                <div className="text-3xl font-bold text-white mb-1">
                                   {result.similarity_percentage.toFixed(1)}%
                                 </div>
                                 <Badge className={`${getColorForSimilarity(result.similarity_percentage)} text-white text-sm px-3 py-1`}>
@@ -452,7 +452,7 @@ function App() {
                             </div>
                           ) : (
                             <div className="text-center">
-                              <div className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
+                              <div className="text-sm text-red-400 bg-red-900/50 p-3 rounded-lg">
                                 {result.error_message || 'Não foi possível detectar um rosto nesta imagem'}
                               </div>
                             </div>
