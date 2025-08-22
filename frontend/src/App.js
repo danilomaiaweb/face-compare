@@ -51,40 +51,68 @@ function App() {
 
     // Remove any Emergent branding dynamically
     const removeEmergentElements = () => {
-      const elementsToRemove = [
-        ...document.querySelectorAll('[data-testid="made-with-emergent"]'),
-        ...document.querySelectorAll('*[href*="emergent"]'),
-        ...document.querySelectorAll('*[class*="emergent"]'),
-        ...document.querySelectorAll('*[id*="emergent"]'),
-        ...Array.from(document.querySelectorAll('*')).filter(el => 
-          el.textContent && el.textContent.toLowerCase().includes('made with emergent')
-        ),
-        ...Array.from(document.querySelectorAll('div')).filter(el => {
-          const style = window.getComputedStyle(el);
-          return style.position === 'fixed' && 
-                 (style.bottom !== 'auto' || style.right !== 'auto');
-        })
-      ];
+      try {
+        const elementsToRemove = [
+          ...document.querySelectorAll('[data-testid="made-with-emergent"]'),
+          ...document.querySelectorAll('*[href*="emergent"]'),
+          ...document.querySelectorAll('*[class*="emergent"]'),
+          ...document.querySelectorAll('*[id*="emergent"]'),
+          ...Array.from(document.querySelectorAll('*')).filter(el => 
+            el.textContent && el.textContent.toLowerCase().includes('made with emergent')
+          ),
+          ...Array.from(document.querySelectorAll('div')).filter(el => {
+            try {
+              const style = window.getComputedStyle(el);
+              return style.position === 'fixed' && 
+                     (style.bottom !== 'auto' || style.right !== 'auto');
+            } catch (e) {
+              return false;
+            }
+          })
+        ];
 
-      elementsToRemove.forEach(el => {
-        if (el && el.parentNode) {
-          el.remove();
-        }
-      });
+        elementsToRemove.forEach(el => {
+          try {
+            if (el && el.parentNode) {
+              el.remove();
+            }
+          } catch (e) {
+            // Ignore removal errors
+          }
+        });
+      } catch (e) {
+        // Ignore any errors in element removal
+      }
     };
 
-    // Remove on load
-    removeEmergentElements();
+    // Remove on load with delay to ensure DOM is ready
+    const timeoutId = setTimeout(removeEmergentElements, 100);
 
-    // Set up observer for dynamic content
-    const observer = new MutationObserver(removeEmergentElements);
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+    // Set up observer for dynamic content only if document.body exists
+    let observer = null;
+    if (document.body) {
+      try {
+        observer = new MutationObserver(removeEmergentElements);
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      } catch (e) {
+        // Ignore observer setup errors
+      }
+    }
 
-    // Cleanup observer
-    return () => observer.disconnect();
+    // Cleanup observer and timeout
+    return () => {
+      clearTimeout(timeoutId);
+      if (observer) {
+        try {
+          observer.disconnect();
+        } catch (e) {
+          // Ignore disconnect errors
+        }
+      }
+    };
   }, []);
 
   const handleLogout = () => {
