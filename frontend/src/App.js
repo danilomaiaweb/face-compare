@@ -338,10 +338,10 @@ function App() {
 
         {/* Upload Progress */}
         {loading && uploadProgress > 0 && (
-          <Card className="mb-8 border-blue-200 bg-blue-50/50">
+          <Card className="mb-8 border-gray-600 bg-gray-800/50">
             <CardContent className="pt-6">
               <div className="space-y-2">
-                <div className="flex justify-between text-sm text-blue-700">
+                <div className="flex justify-between text-sm text-blue-400">
                   <span>Enviando imagens...</span>
                   <span>{uploadProgress}%</span>
                 </div>
@@ -353,9 +353,9 @@ function App() {
 
         {/* Error Alert */}
         {error && (
-          <Alert className="mb-8 border-red-200 bg-red-50">
+          <Alert className="mb-8 border-red-500 bg-red-900/50">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription className="text-red-700">
+            <AlertDescription className="text-red-400">
               {error}
             </AlertDescription>
           </Alert>
