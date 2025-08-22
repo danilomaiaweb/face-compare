@@ -192,19 +192,19 @@ function App() {
         {/* Upload Section */}
         <div className="grid md:grid-cols-2 gap-8 mb-8">
           {/* Base Image Upload */}
-          <Card className="border-blue-200 shadow-lg bg-white/70 backdrop-blur-sm">
+          <Card className="border-gray-600 shadow-lg bg-gray-800/70 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-700">
+              <CardTitle className="flex items-center gap-2 text-blue-400">
                 <Upload className="h-5 w-5" />
                 Imagem Base
               </CardTitle>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-400">
                 Faça upload da imagem principal com o rosto de referência
               </p>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                <div className="border-2 border-dashed border-blue-500 rounded-lg p-6 text-center hover:border-blue-400 transition-colors bg-gray-900/50">
                   <input
                     type="file"
                     ref={baseImageRef}
@@ -221,7 +221,7 @@ function App() {
                           alt="Preview"
                           className="mx-auto max-h-48 rounded-lg shadow-md"
                         />
-                        <p className="text-sm text-green-600 font-medium">
+                        <p className="text-sm text-green-400 font-medium">
                           ✓ Imagem carregada com sucesso
                         </p>
                       </div>
@@ -229,8 +229,8 @@ function App() {
                       <div className="space-y-3">
                         <Upload className="mx-auto h-12 w-12 text-blue-400" />
                         <div>
-                          <p className="text-blue-600 font-medium">Clique para fazer upload</p>
-                          <p className="text-sm text-gray-500">PNG, JPG até 10MB</p>
+                          <p className="text-blue-400 font-medium">Clique para fazer upload</p>
+                          <p className="text-sm text-gray-400">PNG, JPG até 10MB</p>
                         </div>
                       </div>
                     )}
@@ -241,9 +241,9 @@ function App() {
           </Card>
 
           {/* Comparison Images Upload */}
-          <Card className="border-purple-200 shadow-lg bg-white/70 backdrop-blur-sm">
+          <Card className="border-gray-600 shadow-lg bg-gray-800/70 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-purple-700">
+              <CardTitle className="flex items-center gap-2 text-purple-400">
                 <Upload className="h-5 w-5" />
                 Imagens para Comparação
               </CardTitle>
