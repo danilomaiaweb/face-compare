@@ -363,73 +363,111 @@ function App() {
 
         {/* Results Section */}
         {results && (
-          <Card className="border-green-200 shadow-xl bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-green-700 text-2xl">
-                <CheckCircle className="h-6 w-6" />
-                Resultados da Comparação
-              </CardTitle>
-              <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                <span>• {results.total_images} imagens processadas</span>
-                <span>• Tempo de processamento: {results.processing_time.toFixed(2)}s</span>
-                <span>• {results.results.filter(r => r.has_face).length} rostos detectados</span>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {results.results.map((result, index) => (
-                  <Card key={index} className={`border-2 ${result.has_face ? 'border-green-200' : 'border-red-200'} shadow-md hover:shadow-lg transition-shadow`}>
-                    <CardContent className="p-4">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium text-gray-700">
-                            Imagem #{result.image_index + 1}
-                          </span>
-                          {result.has_face ? (
-                            <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-                              <CheckCircle className="h-3 w-3 mr-1" />
-                              Rosto Detectado
-                            </Badge>
+          <div className="space-y-8">
+            {/* Base Image Display */}
+            {results.base_image_data && (
+              <Card className="border-blue-200 shadow-xl bg-white/80 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-blue-700 text-xl">
+                    <Camera className="h-5 w-5" />
+                    Imagem Base de Referência
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-center">
+                    <img
+                      src={results.base_image_data}
+                      alt="Imagem base"
+                      className="max-w-xs rounded-lg shadow-lg border-2 border-blue-200"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Results Grid */}
+            <Card className="border-green-200 shadow-xl bg-white/80 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-700 text-2xl">
+                  <CheckCircle className="h-6 w-6" />
+                  Resultados da Comparação
+                </CardTitle>
+                <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                  <span>• {results.total_images} imagens processadas</span>
+                  <span>• Tempo de processamento: {results.processing_time.toFixed(2)}s</span>
+                  <span>• {results.results.filter(r => r.has_face).length} rostos detectados</span>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {results.results.map((result, index) => (
+                    <Card key={index} className={`border-2 ${result.has_face ? 'border-green-200' : 'border-red-200'} shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}>
+                      <CardContent className="p-6">
+                        <div className="space-y-4">
+                          {/* Image Display */}
+                          <div className="flex justify-center">
+                            {result.image_data ? (
+                              <img
+                                src={result.image_data}
+                                alt={`Comparação ${result.image_index + 1}`}
+                                className="w-32 h-32 object-cover rounded-lg shadow-md border-2 border-gray-200"
+                              />
+                            ) : (
+                              <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <AlertCircle className="h-8 w-8 text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Status and Index */}
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-gray-700">
+                              Imagem #{result.image_index + 1}
+                            </span>
+                            {result.has_face ? (
+                              <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+                                <CheckCircle className="h-3 w-3 mr-1" />
+                                Rosto Detectado
+                              </Badge>
+                            ) : (
+                              <Badge variant="destructive" className="bg-red-100 text-red-700 hover:bg-red-100">
+                                <AlertCircle className="h-3 w-3 mr-1" />
+                                Sem Rosto
+                              </Badge>
+                            )}
+                          </div>
+                          
+                          {/* Similarity Results */}
+                          {result.has_face && !result.error_message ? (
+                            <div className="space-y-3">
+                              <div className="text-center">
+                                <div className="text-3xl font-bold text-gray-800 mb-1">
+                                  {result.similarity_percentage.toFixed(1)}%
+                                </div>
+                                <Badge className={`${getColorForSimilarity(result.similarity_percentage)} text-white text-sm px-3 py-1`}>
+                                  Similaridade {getSimilarityLabel(result.similarity_percentage)}
+                                </Badge>
+                              </div>
+                              <Progress 
+                                value={result.similarity_percentage} 
+                                className="h-3"
+                              />
+                            </div>
                           ) : (
-                            <Badge variant="destructive" className="bg-red-100 text-red-700 hover:bg-red-100">
-                              <AlertCircle className="h-3 w-3 mr-1" />
-                              Sem Rosto
-                            </Badge>
+                            <div className="text-center">
+                              <div className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
+                                {result.error_message || 'Não foi possível detectar um rosto nesta imagem'}
+                              </div>
+                            </div>
                           )}
                         </div>
-                        
-                        {result.has_face && !result.error_message ? (
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                              <span className="text-2xl font-bold text-gray-800">
-                                {result.similarity_percentage.toFixed(1)}%
-                              </span>
-                              <Badge className={`${getColorForSimilarity(result.similarity_percentage)} text-white`}>
-                                {getSimilarityLabel(result.similarity_percentage)}
-                              </Badge>
-                            </div>
-                            <Progress 
-                              value={result.similarity_percentage} 
-                              className="h-3"
-                              style={{
-                                '--progress-color': result.similarity_percentage >= 80 ? '#10b981' : 
-                                                   result.similarity_percentage >= 60 ? '#f59e0b' : 
-                                                   result.similarity_percentage >= 40 ? '#f97316' : '#ef4444'
-                              }}
-                            />
-                          </div>
-                        ) : (
-                          <div className="text-sm text-red-600">
-                            {result.error_message || 'Não foi possível detectar um rosto nesta imagem'}
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
       </main>
 
