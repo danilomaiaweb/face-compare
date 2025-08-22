@@ -231,13 +231,25 @@ button:focus {
   }
 }
 
-/* Hide Emergent branding */
+/* Hide Emergent branding - Enhanced */
 [data-testid="made-with-emergent"],
 .emergent-branding,
 a[href*="emergent"],
-div:has(> a[href*="emergent"]) {
+div:has(> a[href*="emergent"]),
+[class*="emergent"],
+[id*="emergent"],
+div[style*="position: fixed"][style*="bottom"],
+div[style*="position: absolute"][style*="bottom"],
+*:contains("Made with Emergent"),
+*:contains("emergent") {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
 }
 
 /* Footer positioning */
