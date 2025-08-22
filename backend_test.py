@@ -138,9 +138,9 @@ class FaceComparisonAPITester:
         try:
             comp_image = self.create_test_image()
             
-            files = {
-                'comparison_images': [('comp1.jpg', comp_image, 'image/jpeg')]
-            }
+            files = [
+                ('comparison_images', ('comp1.jpg', comp_image, 'image/jpeg'))
+            ]
             
             response = requests.post(f"{self.api_url}/compare-faces", files=files)
             
