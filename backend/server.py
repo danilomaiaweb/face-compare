@@ -198,8 +198,8 @@ async def compare_faces(
     
     try:
         # Validate file count
-        if len(comparison_images) > 50:
-            raise HTTPException(status_code=400, detail="Maximum 50 images allowed")
+        if len(comparison_images) > 250:
+            raise HTTPException(status_code=400, detail="Maximum 250 images allowed")
         
         # Process base image
         base_content = await base_image.read()
