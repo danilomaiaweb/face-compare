@@ -253,7 +253,7 @@ function App() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="border-2 border-dashed border-purple-300 rounded-lg p-6 text-center hover:border-purple-400 transition-colors">
+                <div className="border-2 border-dashed border-purple-500 rounded-lg p-6 text-center hover:border-purple-400 transition-colors bg-gray-900/50">
                   <input
                     type="file"
                     ref={comparisonImagesRef}
@@ -267,7 +267,7 @@ function App() {
                     <div className="space-y-3">
                       <Upload className="mx-auto h-12 w-12 text-purple-400" />
                       <div>
-                        <p className="text-purple-600 font-medium">
+                        <p className="text-purple-400 font-medium">
                           Clique para selecionar múltiplas imagens
                         </p>
                         <p className="text-sm text-gray-400">
