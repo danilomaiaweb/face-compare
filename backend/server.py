@@ -223,6 +223,9 @@ async def compare_faces(
                 detail="Não foi possível extrair características da face na imagem base."
             )
         
+        # Convert base image to base64 for display
+        base_image_data = image_to_base64(base_array)
+        
         # Process comparison images
         results = []
         
@@ -232,6 +235,9 @@ async def compare_faces(
                 comp_content = await comp_image.read()
                 comp_array = process_uploaded_image(comp_content)
                 
+                # Convert comparison image to base64 for display
+                comp_image_data = image_to_base64(comp_array)
+                
                 # Detect faces
                 comp_has_face, comp_faces = detect_faces(comp_array)
                 
@@ -240,6 +246,7 @@ async def compare_faces(
                         image_index=i,
                         similarity_percentage=0.0,
                         has_face=False,
+                        image_data=comp_image_data,
                         error_message="Nenhum rosto detectado nesta imagem"
                     ))
                     continue
@@ -252,6 +259,7 @@ async def compare_faces(
                         image_index=i,
                         similarity_percentage=0.0,
                         has_face=True,
+                        image_data=comp_image_data,
                         error_message="Não foi possível extrair características da face"
                     ))
                     continue
@@ -262,7 +270,8 @@ async def compare_faces(
                 results.append(FaceComparisonResult(
                     image_index=i,
                     similarity_percentage=similarity,
-                    has_face=True
+                    has_face=True,
+                    image_data=comp_image_data
                 ))
                 
             except Exception as e:
@@ -270,6 +279,7 @@ async def compare_faces(
                     image_index=i,
                     similarity_percentage=0.0,
                     has_face=False,
+                    image_data=None,
                     error_message=f"Erro ao processar imagem: {str(e)}"
                 ))
         
@@ -281,6 +291,7 @@ async def compare_faces(
         
         return ComparisonResponse(
             base_image_has_face=True,
+            base_image_data=base_image_data,
             results=results,
             total_images=len(comparison_images),
             processing_time=processing_time
