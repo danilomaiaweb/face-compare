@@ -419,11 +419,8 @@ function App() {
                             )}
                           </div>
                           
-                          {/* Status and Index */}
-                          <div className="flex items-center justify-between">
-                            <span className="font-medium text-gray-700">
-                              Imagem #{result.image_index + 1}
-                            </span>
+                          {/* Status Badge Only - Remove Image Name */}
+                          <div className="flex justify-center">
                             {result.has_face ? (
                               <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
                                 <CheckCircle className="h-3 w-3 mr-1" />
