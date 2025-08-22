@@ -504,7 +504,7 @@ function App() {
               <CardContent>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {results.results.map((result, index) => (
-                    <Card key={index} className={`border-2 ${result.has_face ? 'border-green-500/50' : 'border-red-500/50'} shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1 bg-gray-900/70 backdrop-blur-sm`}>
+                    <Card key={index} className={`border-2 ${result.has_face ? 'border-green-500/50' : 'border-red-500/50'} shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1 bg-white/95 backdrop-blur-sm`}>
                       <CardContent className="p-6">
                         <div className="space-y-4">
                           {/* Image Display */}
