@@ -109,6 +109,29 @@ def extract_face_features(image_array, faces):
     except Exception as e:
         return None
 
+def image_to_base64(image_array, max_size=(150, 150)):
+    """Convert image array to base64 string for frontend display"""
+    try:
+        # Convert numpy array to PIL Image
+        if isinstance(image_array, np.ndarray):
+            image = Image.fromarray(image_array)
+        else:
+            image = image_array
+            
+        # Resize for thumbnail
+        image.thumbnail(max_size, Image.Resampling.LANCZOS)
+        
+        # Convert to base64
+        img_buffer = io.BytesIO()
+        image.save(img_buffer, format='JPEG', quality=80)
+        img_buffer.seek(0)
+        
+        img_str = base64.b64encode(img_buffer.getvalue()).decode()
+        return f"data:image/jpeg;base64,{img_str}"
+        
+    except Exception as e:
+        return None
+
 def calculate_similarity(features1, features2):
     """Calculate similarity between two feature vectors"""
     try:
