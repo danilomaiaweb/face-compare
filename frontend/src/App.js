@@ -270,10 +270,10 @@ function App() {
                         <p className="text-purple-600 font-medium">
                           Clique para selecionar múltiplas imagens
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-400">
                           {comparisonImages.length > 0 
                             ? `${comparisonImages.length} imagem(ns) selecionada(s)`
-                            : 'PNG, JPG até 10MB cada (máx. 50 imagens)'
+                            : 'PNG, JPG até 10MB cada (máx. 250 imagens)'
                           }
                         </p>
                       </div>
