@@ -366,9 +366,9 @@ function App() {
           <div className="space-y-8">
             {/* Base Image Display */}
             {results.base_image_data && (
-              <Card className="border-blue-200 shadow-xl bg-white/80 backdrop-blur-sm">
+              <Card className="border-gray-600 shadow-xl bg-gray-800/80 backdrop-blur-sm">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-blue-700 text-xl">
+                  <CardTitle className="flex items-center gap-2 text-blue-400 text-xl">
                     <Camera className="h-5 w-5" />
                     Imagem Base de Referência
                   </CardTitle>
@@ -378,7 +378,7 @@ function App() {
                     <img
                       src={results.base_image_data}
                       alt="Imagem base"
-                      className="max-w-xs rounded-lg shadow-lg border-2 border-blue-200"
+                      className="max-w-xs rounded-lg shadow-lg border-2 border-blue-500"
                     />
                   </div>
                 </CardContent>
@@ -386,13 +386,13 @@ function App() {
             )}
 
             {/* Results Grid */}
-            <Card className="border-green-200 shadow-xl bg-white/80 backdrop-blur-sm">
+            <Card className="border-gray-600 shadow-xl bg-gray-800/80 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-green-700 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-green-400 text-2xl">
                   <CheckCircle className="h-6 w-6" />
                   Resultados da Comparação
                 </CardTitle>
-                <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                <div className="flex flex-wrap gap-4 text-sm text-gray-400">
                   <span>• {results.total_images} imagens processadas</span>
                   <span>• Tempo de processamento: {results.processing_time.toFixed(2)}s</span>
                   <span>• {results.results.filter(r => r.has_face).length} rostos detectados</span>
@@ -401,7 +401,7 @@ function App() {
               <CardContent>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {results.results.map((result, index) => (
-                    <Card key={index} className={`border-2 ${result.has_face ? 'border-green-200' : 'border-red-200'} shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}>
+                    <Card key={index} className={`border-2 ${result.has_face ? 'border-green-500/50' : 'border-red-500/50'} shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-1 bg-gray-900/70 backdrop-blur-sm`}>
                       <CardContent className="p-6">
                         <div className="space-y-4">
                           {/* Image Display */}
