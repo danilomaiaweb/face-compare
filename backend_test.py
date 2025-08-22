@@ -382,6 +382,7 @@ def main():
     tests = [
         ("Root Endpoint", tester.test_root_endpoint),
         ("Compare Faces - Valid Data", tester.test_compare_faces_valid),
+        ("Image Data Fields - No Face", tester.test_image_data_fields_with_no_face),
         ("Compare Faces - No Base Image", tester.test_compare_faces_no_base_image),
         ("Compare Faces - Too Many Images", tester.test_compare_faces_too_many_images),
         ("Compare Faces - No Face in Base", tester.test_compare_faces_no_face_in_base),
