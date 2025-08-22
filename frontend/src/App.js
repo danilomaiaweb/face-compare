@@ -48,6 +48,43 @@ function App() {
     if (token === 'authenticated') {
       setIsAuthenticated(true);
     }
+
+    // Remove any Emergent branding dynamically
+    const removeEmergentElements = () => {
+      const elementsToRemove = [
+        ...document.querySelectorAll('[data-testid="made-with-emergent"]'),
+        ...document.querySelectorAll('*[href*="emergent"]'),
+        ...document.querySelectorAll('*[class*="emergent"]'),
+        ...document.querySelectorAll('*[id*="emergent"]'),
+        ...Array.from(document.querySelectorAll('*')).filter(el => 
+          el.textContent && el.textContent.toLowerCase().includes('made with emergent')
+        ),
+        ...Array.from(document.querySelectorAll('div')).filter(el => {
+          const style = window.getComputedStyle(el);
+          return style.position === 'fixed' && 
+                 (style.bottom !== 'auto' || style.right !== 'auto');
+        })
+      ];
+
+      elementsToRemove.forEach(el => {
+        if (el && el.parentNode) {
+          el.remove();
+        }
+      });
+    };
+
+    // Remove on load
+    removeEmergentElements();
+
+    // Set up observer for dynamic content
+    const observer = new MutationObserver(removeEmergentElements);
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // Cleanup observer
+    return () => observer.disconnect();
   }, []);
 
   const handleLogout = () => {
