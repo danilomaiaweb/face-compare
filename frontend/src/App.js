@@ -55,8 +55,8 @@ function App() {
     const files = Array.from(event.target.files);
     
     // Validate file count
-    if (files.length > 50) {
-      setError('Máximo de 50 imagens permitido.');
+    if (files.length > 250) {
+      setError('Máximo de 250 imagens permitido.');
       return;
     }
     
