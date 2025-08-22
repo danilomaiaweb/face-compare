@@ -230,3 +230,21 @@ button:focus {
     opacity: 0.5;
   }
 }
+
+/* Hide Emergent branding */
+[data-testid="made-with-emergent"],
+.emergent-branding,
+a[href*="emergent"],
+div:has(> a[href*="emergent"]) {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Footer positioning */
+.main-container {
+  min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
+}
+
+.footer-container {
+  margin-top: auto;
+}
