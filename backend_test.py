@@ -21,23 +21,75 @@ class FaceComparisonAPITester:
         return img_bytes
 
     def create_face_like_image(self, width=200, height=200):
-        """Create a simple image that might contain face-like features"""
-        # Create a simple face-like pattern
-        image = Image.new('RGB', (width, height), (255, 220, 177))  # Skin color
+        """Create a more realistic face-like image using geometric patterns"""
+        # Create a simple face-like pattern with better contrast
+        image = Image.new('RGB', (width, height), (240, 220, 200))  # Light skin color
         
-        # Add some basic shapes that might be detected as face features
         from PIL import ImageDraw
         draw = ImageDraw.Draw(image)
         
-        # Eyes (dark circles)
-        draw.ellipse([60, 60, 80, 80], fill=(0, 0, 0))  # Left eye
-        draw.ellipse([120, 60, 140, 80], fill=(0, 0, 0))  # Right eye
+        # Face outline (oval)
+        face_margin = 20
+        draw.ellipse([face_margin, face_margin, width-face_margin, height-face_margin], 
+                    fill=(220, 200, 180), outline=(180, 160, 140), width=2)
         
-        # Nose (small triangle)
-        draw.polygon([(100, 90), (95, 110), (105, 110)], fill=(200, 180, 150))
+        # Eyes (larger, more realistic)
+        eye_y = height // 3
+        left_eye_x = width // 3
+        right_eye_x = 2 * width // 3
+        eye_size = 15
         
-        # Mouth (small line)
-        draw.rectangle([90, 130, 110, 135], fill=(150, 100, 100))
+        # Eye whites
+        draw.ellipse([left_eye_x-eye_size, eye_y-eye_size//2, left_eye_x+eye_size, eye_y+eye_size//2], 
+                    fill=(255, 255, 255), outline=(0, 0, 0), width=1)
+        draw.ellipse([right_eye_x-eye_size, eye_y-eye_size//2, right_eye_x+eye_size, eye_y+eye_size//2], 
+                    fill=(255, 255, 255), outline=(0, 0, 0), width=1)
+        
+        # Pupils
+        pupil_size = 6
+        draw.ellipse([left_eye_x-pupil_size, eye_y-pupil_size, left_eye_x+pupil_size, eye_y+pupil_size], 
+                    fill=(0, 0, 0))
+        draw.ellipse([right_eye_x-pupil_size, eye_y-pupil_size, right_eye_x+pupil_size, eye_y+pupil_size], 
+                    fill=(0, 0, 0))
+        
+        # Eyebrows
+        brow_y = eye_y - 20
+        draw.arc([left_eye_x-eye_size-5, brow_y-5, left_eye_x+eye_size+5, brow_y+5], 
+                start=0, end=180, fill=(100, 80, 60), width=3)
+        draw.arc([right_eye_x-eye_size-5, brow_y-5, right_eye_x+eye_size+5, brow_y+5], 
+                start=0, end=180, fill=(100, 80, 60), width=3)
+        
+        # Nose (more detailed)
+        nose_x = width // 2
+        nose_y = height // 2
+        nose_points = [
+            (nose_x, nose_y - 15),
+            (nose_x - 8, nose_y + 5),
+            (nose_x - 3, nose_y + 8),
+            (nose_x + 3, nose_y + 8),
+            (nose_x + 8, nose_y + 5)
+        ]
+        draw.polygon(nose_points, fill=(200, 180, 160), outline=(180, 160, 140))
+        
+        # Nostrils
+        draw.ellipse([nose_x-8, nose_y+3, nose_x-5, nose_y+6], fill=(150, 130, 110))
+        draw.ellipse([nose_x+5, nose_y+3, nose_x+8, nose_y+6], fill=(150, 130, 110))
+        
+        # Mouth (more realistic)
+        mouth_y = 2 * height // 3
+        mouth_width = 30
+        draw.arc([nose_x-mouth_width, mouth_y-8, nose_x+mouth_width, mouth_y+8], 
+                start=0, end=180, fill=(150, 100, 100), width=4)
+        
+        # Add some texture/noise to make it more realistic
+        import random
+        for _ in range(100):
+            x = random.randint(0, width-1)
+            y = random.randint(0, height-1)
+            current_pixel = image.getpixel((x, y))
+            noise = random.randint(-10, 10)
+            new_pixel = tuple(max(0, min(255, c + noise)) for c in current_pixel)
+            draw.point((x, y), fill=new_pixel)
         
         img_bytes = io.BytesIO()
         image.save(img_bytes, format='JPEG')
