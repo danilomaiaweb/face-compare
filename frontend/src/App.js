@@ -181,8 +181,8 @@ function App() {
               <Camera className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Comparador Facial</h1>
-              <p className="text-gray-600 mt-1">Compare rostos e descubra similaridades com precisão</p>
+              <h1 className="text-3xl font-bold text-white">Comparador Facial Painho Trampos</h1>
+              <p className="text-gray-300 mt-1">Compare rostos e descubra similaridades com precisão</p>
             </div>
           </div>
         </div>
