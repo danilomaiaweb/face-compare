@@ -161,15 +161,12 @@ class FaceComparisonAPITester:
         try:
             base_image = self.create_face_like_image()
             
-            # Create 51 comparison images
-            files = {
-                'base_image': ('base.jpg', base_image, 'image/jpeg'),
-                'comparison_images': []
-            }
+            # Create files list with base image and 51 comparison images
+            files = [('base_image', ('base.jpg', base_image, 'image/jpeg'))]
             
             for i in range(51):
                 comp_image = self.create_test_image()
-                files['comparison_images'].append((f'comp{i}.jpg', comp_image, 'image/jpeg'))
+                files.append(('comparison_images', (f'comp{i}.jpg', comp_image, 'image/jpeg')))
             
             response = requests.post(f"{self.api_url}/compare-faces", files=files)
             
