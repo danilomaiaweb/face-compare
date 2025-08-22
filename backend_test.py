@@ -275,14 +275,14 @@ class FaceComparisonAPITester:
             return False
 
     def test_compare_faces_too_many_images(self):
-        """Test compare-faces endpoint with too many images (>50)"""
+        """Test compare-faces endpoint with too many images (>250)"""
         try:
             base_image = self.create_face_like_image()
             
-            # Create files list with base image and 51 comparison images
+            # Create files list with base image and 251 comparison images
             files = [('base_image', ('base.jpg', base_image, 'image/jpeg'))]
             
-            for i in range(51):
+            for i in range(251):
                 comp_image = self.create_test_image()
                 files.append(('comparison_images', (f'comp{i}.jpg', comp_image, 'image/jpeg')))
             
@@ -291,7 +291,7 @@ class FaceComparisonAPITester:
             # Should return 400 for too many images
             if response.status_code == 400:
                 data = response.json()
-                if "Maximum 50 images allowed" in data.get('detail', ''):
+                if "Maximum 250 images allowed" in data.get('detail', ''):
                     print(f"   Correctly rejected too many images")
                     return True
                 else:
