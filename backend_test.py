@@ -163,6 +163,17 @@ class FaceComparisonAPITester:
                 print(f"   Base image has face: {data['base_image_has_face']}")
                 print(f"   Results count: {len(data['results'])}")
                 
+                # NEW: Check for base64 image data fields
+                if 'base_image_data' in data and data['base_image_data']:
+                    if data['base_image_data'].startswith('data:image/jpeg;base64,'):
+                        print(f"   ✅ Base image data correctly formatted as base64")
+                    else:
+                        print(f"   ❌ Base image data format incorrect: {data['base_image_data'][:50]}...")
+                        return False
+                else:
+                    print(f"   ❌ Missing base_image_data field")
+                    return False
+                
                 # Check results structure
                 for i, result in enumerate(data['results']):
                     result_fields = ['image_index', 'similarity_percentage', 'has_face']
@@ -170,6 +181,18 @@ class FaceComparisonAPITester:
                         if field not in result:
                             print(f"   Missing result field: {field}")
                             return False
+                    
+                    # NEW: Check for image_data field in results
+                    if 'image_data' in result and result['image_data']:
+                        if result['image_data'].startswith('data:image/jpeg;base64,'):
+                            print(f"   ✅ Result {i}: image_data correctly formatted as base64")
+                        else:
+                            print(f"   ❌ Result {i}: image_data format incorrect")
+                            return False
+                    else:
+                        print(f"   ❌ Result {i}: Missing image_data field")
+                        return False
+                    
                     print(f"   Result {i}: {result['similarity_percentage']:.1f}% similarity, has_face: {result['has_face']}")
                 
                 return True
