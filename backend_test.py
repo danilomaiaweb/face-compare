@@ -88,13 +88,11 @@ class FaceComparisonAPITester:
             comp_image1 = self.create_face_like_image(180, 180)
             comp_image2 = self.create_face_like_image(220, 220)
             
-            files = {
-                'base_image': ('base.jpg', base_image, 'image/jpeg'),
-                'comparison_images': [
-                    ('comp1.jpg', comp_image1, 'image/jpeg'),
-                    ('comp2.jpg', comp_image2, 'image/jpeg')
-                ]
-            }
+            files = [
+                ('base_image', ('base.jpg', base_image, 'image/jpeg')),
+                ('comparison_images', ('comp1.jpg', comp_image1, 'image/jpeg')),
+                ('comparison_images', ('comp2.jpg', comp_image2, 'image/jpeg'))
+            ]
             
             response = requests.post(f"{self.api_url}/compare-faces", files=files)
             
