@@ -20,9 +20,103 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
 
   const baseImageRef = useRef(null);
   const comparisonImagesRef = useRef(null);
+
+  // Simple authentication - In production, this should be more secure
+  const VALID_PASSWORD = 'painho123'; // Change this to your desired password
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (loginPassword === VALID_PASSWORD) {
+      setIsAuthenticated(true);
+      setLoginError('');
+      localStorage.setItem('auth_token', 'authenticated'); // Simple session storage
+    } else {
+      setLoginError('Senha incorreta. Tente novamente.');
+      setLoginPassword('');
+    }
+  };
+
+  // Check if user was previously authenticated
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    if (token === 'authenticated') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('auth_token');
+    // Reset all states
+    setBaseImage(null);
+    setBaseImagePreview(null);
+    setComparisonImages([]);
+    setComparisonPreviews([]);
+    setResults(null);
+    setError(null);
+  };
+
+  // Login Screen Component
+  const LoginScreen = () => (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
+      <Card className="w-full max-w-md border-gray-600 bg-gray-800/90 backdrop-blur-sm shadow-2xl">
+        <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-blue-600 rounded-lg">
+              <Camera className="h-8 w-8 text-white" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl text-white">Comparador Facial Painho Trampos</CardTitle>
+          <p className="text-gray-400 mt-2">Acesso Restrito - Digite a senha para continuar</p>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+                Senha de Acesso
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Digite sua senha"
+                required
+              />
+            </div>
+            
+            {loginError && (
+              <Alert className="border-red-500 bg-red-900/50">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-red-400">
+                  {loginError}
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 px-4 rounded-lg transition-all duration-200"
+            >
+              Entrar
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  // If not authenticated, show login screen
+  if (!isAuthenticated) {
+    return <LoginScreen />;
+  }
 
   const handleBaseImageChange = (event) => {
     const file = event.target.files[0];
