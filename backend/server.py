@@ -47,10 +47,12 @@ class FaceComparisonResult(BaseModel):
     image_index: int
     similarity_percentage: float
     has_face: bool
+    image_data: Optional[str] = None  # Base64 encoded image
     error_message: Optional[str] = None
 
 class ComparisonResponse(BaseModel):
     base_image_has_face: bool
+    base_image_data: Optional[str] = None  # Base64 encoded base image
     results: List[FaceComparisonResult]
     total_images: int
     processing_time: float
